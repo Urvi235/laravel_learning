@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 use App\Models\employee;
+use Auth;
 
 class EmployeeDetailController extends Controller
 {
@@ -32,9 +33,12 @@ class EmployeeDetailController extends Controller
             $employee->last_name = $request->last_name;
             $employee->number = $request->number;
             $employee->dob = $request->dob;
-            $employee->photo = $request->photo ? $request->photo->store('photosDoc') : null;
+            $employee->photo = $request->photo ? $request->photo->store('photosDoc') : null; 
             $employee->save();
-            return $employee;
+            // return $employee;
+            $token = $employee->createToken('Myapp')->accessToken;
+
+            return response()->json(["status"=> "Done", "token"->$token]);
         }
     }
 
@@ -45,4 +49,34 @@ class EmployeeDetailController extends Controller
         return $employee;
     }
 
+
+    public function login(Request $request){
+        // dd($request->email);
+        $validator = Validator::make($request->all(),[
+            'email'=>'required|email',
+            'password' => 'required|string |min:8 | regex:/[a-z]/ | regex:/[A-Z]/ |  regex:/[0-9]/ | regex:/[@$!%*#?&]/ ',
+        ]);
+
+        if($validator->fails()){
+            return ["Status" => "Fail", "Error" => $validator->errors()->first()];
+        }
+
+        $data = [
+            'email' => $request->email,
+            'password' => $request->password
+        ];
+        // dd($data);
+        dd(Auth::attempt($data));
+
+        // if($auth){
+        //     $employee = Auth::user();
+        //     // $token = $employee->createToken('Myapp')->accessToken;
+        //     $token = $employee->createToken('Token Name')->accessToken;
+        //     // return response()->json(['Token'=> $token]);
+        //     return ['token'=> $token];
+        // }
+        // else{
+        //     return ['error'];
+        // }
+    }
 }

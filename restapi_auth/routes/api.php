@@ -15,10 +15,12 @@ use App\Http\Controllers\EmployeeDetailController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {  
     return $request->user();
 });
 
 
 Route::post("register", [EmployeeDetailController::class, "register"]);
+Route::post("login", [EmployeeDetailController::class, "login"]);
 Route::get("get/employee/{id?}", [EmployeeDetailController::class, "getemployee"]);
+  

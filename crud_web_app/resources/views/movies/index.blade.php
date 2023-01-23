@@ -3,7 +3,7 @@
 <div class="wrapperdiv">
 
 @if($messge = Session::get('success'))
-<div class="alert alert-success text-center">{{ $messge }}</div>
+<div class="alert alert-success text-center">{{ $messge }}</div> 
 @endif
 
 <table class="table">

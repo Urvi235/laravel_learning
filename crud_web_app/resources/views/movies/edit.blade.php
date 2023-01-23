@@ -58,7 +58,7 @@
                                     @if($genre == $movie->genre)
                                         <option value="{{ $genre }}" selected >{{ $genre }}</option>
                                     @else
-                                        <option value="{{ $genre }}">{{ $genre }}</option>
+                                        <option value="{{ $genre }}">{{ $genre }}</option> 
                                     @endif
                                 @endforeach
                                 @endif

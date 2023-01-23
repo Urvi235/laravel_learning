@@ -26,7 +26,7 @@
             @csrf
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group row">
+                    <div class="form-group row"> 
                         <label for="title" class="col-sm-2 col-form-control"
                             >Title</label
                         >
@@ -34,7 +34,7 @@
                             <input
                                 type="text"
                                 name="title"
-                                id="title"
+                                id="title" 
                                 class="form-control"
                             />
                         </div>

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MoviesController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,16 @@ use App\Http\Controllers\MoviesController;
 Route::get('/', function () {
     return view('welcome');
 });
+ 
 
-Route::resource('movies',MoviesController::class);
 
+
+Route::group(['middleware'=>['auth']], function() {
+    Route::resource('movies',MoviesController::class);
+});
+
+Route::get('login', [AuthController::class, 'index'])->name('login');
+Route::get('register',[AuthController::class, 'register'] );
+Route::get('logout',[AuthController::class, 'logout'] );
+Route::post('registerValidate',[AuthController::class, 'registerValidate'])->name('registerValidate');
+Route::post('loginValidate',[AuthController::class, 'loginValidate'])->name('loginValidate');

@@ -15,9 +15,9 @@ use App\Http\Controllers\EmployeeDetailController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {  
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {  
+//     return $request->user();
+// });
 
 
 Route::post("register", [EmployeeDetailController::class, "register"]);

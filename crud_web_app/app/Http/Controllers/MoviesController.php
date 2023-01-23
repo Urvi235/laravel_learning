@@ -14,10 +14,10 @@ class MoviesController extends Controller
      */
     public function index()
     {
-        $movies = Movie::latest()->paginate(4);
-        return view('movies.index', compact('movies'))->with('i', (request()->input('page', 1) - 1) * 4);
+        $movies = Movie::latest()->paginate(3);
+        return view('movies.index', compact('movies'))->with('i', (request()->input('page', 1)));
     }
-
+ 
     /**
      * Show the form for creating a new resource.
      *

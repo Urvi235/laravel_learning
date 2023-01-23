@@ -1,3 +1,12 @@
 .wrapperdiv {
-    padding-top: 80px; background-color: #e3f2fd;
+    padding-top: 50px; background-color: #e3f2fd;
+}
+
+.formcontainer {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.img-thumbnail {
+    width: 140px;
 }

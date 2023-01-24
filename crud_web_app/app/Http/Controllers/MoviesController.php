@@ -12,8 +12,15 @@ class MoviesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
-    {
+
+     public function __construct()
+     {
+         $this->middleware('auth');
+     }
+
+    public function index() 
+    {   
+ 
         $movies = Movie::latest()->paginate(3);
         return view('movies.index', compact('movies'))->with('i', (request()->input('page', 1)));
     }

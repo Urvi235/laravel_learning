@@ -6,9 +6,11 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Hash;
+use Session;
 
 class AuthController extends Controller
 {
+
 
     public function index(){
         return view('auth.login');
@@ -59,8 +61,20 @@ class AuthController extends Controller
      
     }
 
+    public function userDetails(){
+        // dd(Auth::user());
+        $user = Auth::user();
+        // return route('dashboard',compact('user'));
+        return view('auth.dashboard', compact('user'));
+
+    }
+    
+
     public function logout(){
-        return view('auth.logout');
+        Session::flush();
+        Auth::logout();
+
+        return redirect()->route('login');
     }
 
 }

@@ -18,6 +18,20 @@
       </li>
     </ul>
   </div>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="logout">Logout</a>
+      </li>
+    </ul>
+  </div>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="dashboard">DashBoard</a>
+      </li>
+    </ul>
+  </div>
 </nav>
 @yield('content')
 </div>

@@ -20,14 +20,19 @@ Route::get('/', function () {
 });
  
 
+Route::get('login', [AuthController::class, 'index'])->name('login');
+Route::get('register',[AuthController::class, 'register'] );
+Route::get('movies',[AuthController::class,'validAuth']);
+Route::get('dashboard',[AuthController::class,'userDetails'])->name('dashboard');
+Route::get('logout',[AuthController::class, 'logout'] );
+Route::post('loginValidate',[AuthController::class, 'loginValidate'])->name('loginValidate');
+Route::post('registerValidate',[AuthController::class, 'registerValidate'])->name('registerValidate');
+Route::get('user/details',[AuthController::class, 'userDetails'])->name('userDetails');
 
-
-Route::group(['middleware'=>['auth']], function() {
+Route::middleware(['auth'])->group(function () {
     Route::resource('movies',MoviesController::class);
 });
 
-Route::get('login', [AuthController::class, 'index'])->name('login');
-Route::get('register',[AuthController::class, 'register'] );
-Route::get('logout',[AuthController::class, 'logout'] );
-Route::post('registerValidate',[AuthController::class, 'registerValidate'])->name('registerValidate');
-Route::post('loginValidate',[AuthController::class, 'loginValidate'])->name('loginValidate');
+
+
+

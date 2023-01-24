@@ -9,7 +9,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col"></th>
+      <th scope="col">Poster</th> 
       <th scope="col">Title</th>
       <th scope="col">Genre</th>
       <th scope="col">Release Year</th>
@@ -41,7 +41,7 @@
 </table>
 <div class="d-flex">
     <div class="mx-auto">
-        {!! $movies->links() !!}
+        {!!$movies->links()!!}
     </div>
 </div>
 </div>

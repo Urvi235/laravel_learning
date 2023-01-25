@@ -2,6 +2,10 @@
 @section('content')
 <div class="wrapperdiv">
 
+@if($messge = Session::get('error'))
+<div class="alert alert-danger text-center">{{ $messge }}</div> 
+@endif
+
 @if($messge = Session::get('success'))
 <div class="alert alert-success text-center">{{ $messge }}</div> 
 @endif
@@ -39,10 +43,20 @@
   </tbody>
   @endif
 </table>
-<div class="d-flex">
+<!-- <div class="d-flex">
     <div class="mx-auto">
         {!!$movies->links()!!}
     </div>
+</div> -->
+<div class="w-5">
+  <div class="d-flex">
+      <!-- <div class="mx-auto"> -->
+          {!!$movies->links()!!}
+      <!-- </div> -->
+  </div>
 </div>
+
+
+
 </div>
 @endsection

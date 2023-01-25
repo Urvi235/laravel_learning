@@ -18,6 +18,12 @@ use App\Http\Controllers\AuthController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Route::get('noaccess', function () {
+//     return view('auth.noaccess');
+// });
+Route::view('noaccess','auth.noaccess');
+
  
 
 Route::get('login', [AuthController::class, 'index'])->name('login');
@@ -28,10 +34,17 @@ Route::get('logout',[AuthController::class, 'logout'] );
 Route::post('loginValidate',[AuthController::class, 'loginValidate'])->name('loginValidate');
 Route::post('registerValidate',[AuthController::class, 'registerValidate'])->name('registerValidate');
 Route::get('user/details',[AuthController::class, 'userDetails'])->name('userDetails');
+// Route::get('checkage',[AuthController::class, 'checkage']);
 
-Route::middleware(['auth'])->group(function () {
+
+// Route::middleware(['auth'])->group(function () {
+//     Route::resource('movies',MoviesController::class)->middleware('age');
+// });
+
+
+Route::group(['middleware' => ['auth']], function() { 
     Route::resource('movies',MoviesController::class);
-});
+  });
 
 
 

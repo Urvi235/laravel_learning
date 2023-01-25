@@ -10,3 +10,10 @@
 .img-thumbnail {
     width: 140px;
 }
+
+.w-5 {
+    width : 60%;
+    align-self: center;
+    display:list-item;
+    margin: 5 auto;
+}

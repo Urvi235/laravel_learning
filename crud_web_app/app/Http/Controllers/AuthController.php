@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Hash;
 use Session;
+use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -26,6 +27,7 @@ class AuthController extends Controller
             'name'=> 'required',
             'email' => 'required | email',
             'password' => 'required|min:6',
+            'dob' => 'required '
         ]);
 
         if($validator){
@@ -33,6 +35,7 @@ class AuthController extends Controller
             $user->email = $request->email;
             $user->name = $request->name;
             $user->password = Hash::make($request->password);
+            $user->dob = $request->dob;
             $user->save();
          
             return redirect()->route('movies.index')->withSuccess('greate you have successfully register...');
@@ -64,10 +67,15 @@ class AuthController extends Controller
     public function userDetails(){
         // dd(Auth::user());
         $user = Auth::user();
-        // return route('dashboard',compact('user'));
         return view('auth.dashboard', compact('user'));
 
     }
+
+    // public function checkage(){
+    //     $dob = Auth::user()->dob;
+    //     $year = Carbon::parse($dob)->age;
+    //     dd($year);
+    // }
     
 
     public function logout(){

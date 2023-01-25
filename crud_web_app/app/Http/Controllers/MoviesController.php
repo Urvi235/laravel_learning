@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Movie;
 use Illuminate\Http\Request;
+use Carbon\carbon;
 
 class MoviesController extends Controller
 {
@@ -32,8 +34,14 @@ class MoviesController extends Controller
      */
     public function create()
     {
-        $genres = ['Action', 'Comedy', 'Biopic', 'Horror', 'Drama'];
+        $dob = Auth::user()->dob;
+        $age = Carbon::parse($dob)->age;
+ 
+        if ($age<18){
+            return redirect()->route('movies.index')->with('error','you have no access');
+        }
 
+        $genres = ['Action', 'Comedy', 'Biopic', 'Horror', 'Drama'];       
         return view('movies.create', compact('genres'));
     }
 

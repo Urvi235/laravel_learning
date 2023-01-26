@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\Movie;
 
 class User extends Authenticatable
 {
@@ -24,6 +25,10 @@ class User extends Authenticatable
         'dob',
     ];
 
+    public function posts()
+    {
+        return $this->hasMany(Movie::class, 'post_id');
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -37,15 +37,16 @@ Route::get('user/details',[AuthController::class, 'userDetails'])->name('userDet
 // Route::get('checkage',[AuthController::class, 'checkage']);
 
 
-// Route::middleware(['auth'])->group(function () {
-//     Route::resource('movies',MoviesController::class)->middleware('age');
-// });
-
-
-Route::group(['middleware' => ['auth']], function() { 
+Route::middleware(['auth'])->group(function () {
     Route::resource('movies',MoviesController::class);
-  });
+
+});
+
+Route::group(['middleware' => ['auth', 'age']], function() {
+    Route::resource('movies',MoviesController::class);
 
 
+});
 
 
+ 

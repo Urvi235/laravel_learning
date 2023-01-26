@@ -21,11 +21,15 @@ class checkage
 
         $dob = Auth::user()->dob;
         $age = Carbon::parse($dob)->age;
+        // dd($age);
         
         if($age<18){
-            return redirect('noaccess');
+            // return redirect('noaccess');
+            return redirect()->route('dashboard')->with('error','you have no access ...');
+        } 
+        else{
+            return $next($request);    
         }
-        return $next($request);     
         
     } 
 }

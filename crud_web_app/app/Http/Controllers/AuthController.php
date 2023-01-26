@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Hash;
+use Hash; 
 use Session;
 use Carbon\Carbon;
 
@@ -14,7 +14,7 @@ class AuthController extends Controller
 
 
     public function index(){
-        return view('auth.login');
+        return view('auth.login'); 
     }
 
 
@@ -36,7 +36,7 @@ class AuthController extends Controller
             $user->name = $request->name;
             $user->password = Hash::make($request->password);
             $user->dob = $request->dob;
-            $user->save();
+            $user->save(); 
          
             return redirect()->route('movies.index')->withSuccess('greate you have successfully register...');
             
@@ -54,9 +54,11 @@ class AuthController extends Controller
         ]);
 
         $credentials = $request->only('email','password');
-        
-        if(Auth::attempt($credentials)){         
-            return redirect()->route('movies.index')->withSuccess('greate you have successfully loggedin...');
+        // dd(Auth::attempt($credentials));
+
+        if(Auth::attempt($credentials)){   
+            // return ['done'];   
+            return redirect()->route('dashboard')->withSuccess('greate you have successfully loggedin...');
         }
         else{
             return redirect()->route('login')->withSuccess('OOPS! Invalid credentials, Try again...');
@@ -71,11 +73,6 @@ class AuthController extends Controller
 
     }
 
-    // public function checkage(){
-    //     $dob = Auth::user()->dob;
-    //     $year = Carbon::parse($dob)->age;
-    //     dd($year);
-    // }
     
 
     public function logout(){

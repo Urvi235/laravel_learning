@@ -2,9 +2,7 @@
 @section('content')
 <div class="wrapperdiv">
 
-@if($messge = Session::get('error'))
-<div class="alert alert-danger text-center">{{ $messge }}</div> 
-@endif
+
 
 @if($messge = Session::get('success'))
 <div class="alert alert-success text-center">{{ $messge }}</div> 
@@ -12,7 +10,7 @@
 
 <table class="table">
   <thead>
-    <tr>
+    <tr> 
       <th scope="col">Poster</th> 
       <th scope="col">Title</th>
       <th scope="col">Genre</th>
@@ -43,20 +41,12 @@
   </tbody>
   @endif
 </table>
-<!-- <div class="d-flex">
-    <div class="mx-auto">
-        {!!$movies->links()!!}
-    </div>
-</div> -->
+
 <div class="w-5">
-  <div class="d-flex">
-      <!-- <div class="mx-auto"> -->
+  <div class="d-flex"> 
           {!!$movies->links()!!}
-      <!-- </div> -->
   </div>
 </div>
-
-
 
 </div>
 @endsection

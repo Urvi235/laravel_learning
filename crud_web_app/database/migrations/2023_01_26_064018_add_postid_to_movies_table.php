@@ -15,10 +15,8 @@ class AddPostidToMoviesTable extends Migration
     {
         Schema::table('movies', function (Blueprint $table) {
             //
-            // $table->integer('postID')->unsigned()->change();
-            $table->foreign('postID')->references('user_id')->on('users'); 
-            
-
+            $table->bigInteger('post_id')->unsigned();
+            $table->foreign('post_id')->references('id')->on('users');
         });
     }
 

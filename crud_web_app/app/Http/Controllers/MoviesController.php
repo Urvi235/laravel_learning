@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Movie;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\carbon;
 
@@ -15,10 +16,7 @@ class MoviesController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function __construct()
-     {
-         $this->middleware('auth');
-     }
+
 
     public function index() 
     {   
@@ -34,12 +32,6 @@ class MoviesController extends Controller
      */
     public function create()
     {
-        $dob = Auth::user()->dob;
-        $age = Carbon::parse($dob)->age;
- 
-        if ($age<18){
-            return redirect()->route('movies.index')->with('error','you have no access');
-        }
 
         $genres = ['Action', 'Comedy', 'Biopic', 'Horror', 'Drama'];       
         return view('movies.create', compact('genres'));
@@ -70,7 +62,9 @@ class MoviesController extends Controller
         $data->genre = $request->genre;
         $data->release_year = $request->release_year;
         $data->poster = $imageName;
+        $data->post_id = Auth::user()->id;
         $data->save();
+        // dd($data);
         return redirect()->route('movies.index')->with('success', 'Movie has been added successfully.');
     }
 
@@ -82,9 +76,9 @@ class MoviesController extends Controller
      */
     public function show(Movie $movie)
     {
-
+        // dd(Movie::find($movie->id));
         return view('movies.show', compact('movie'));
-    }
+    } 
 
     /**
      * Show the form for editing the specified resource.

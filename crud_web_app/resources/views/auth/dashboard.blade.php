@@ -2,7 +2,13 @@
 
 @section('content')
 
+<div class="wrapperdiv">
 <h3>Welcome to the user dashboard</h3> 
+
+@if($messge = Session::get('error'))
+<div class="alert alert-danger text-center">{{ $messge }}</div> 
+@endif
+
 <table class="table">
   <thead>
     <tr>
@@ -22,12 +28,10 @@
       <td class="align-middle">{{ $user->email }}</td>
 
     </tr>
-    
+     
 
   </tbody>
-
 </table>
-
-
+</div>
 
 @endsection

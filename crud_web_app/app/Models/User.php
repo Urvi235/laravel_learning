@@ -29,6 +29,13 @@ class User extends Authenticatable
     {
         return $this->hasMany(Movie::class, 'post_id');
     }
+
+    public function latestPost()
+    {
+    return $this->hasOne(Movie::class, 'post_id')->latestOfMany();
+    }
+
+
     /**
      * The attributes that should be hidden for serialization.
      *

@@ -10,10 +10,10 @@ class Movie extends Model
     use HasFactory;
     protected $fillable = ['title', 'genre', 'release_year', 'poster'];
 
-    public function suppliers()
+    public function user()
    {
-      return $this->hasOne(User::class); 
-  }
+      return $this->belongsTo(User::class, 'post_id'); 
+  } 
 
 }
  

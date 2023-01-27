@@ -71,13 +71,14 @@ class MoviesController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Movie  $movie
-     * @return \Illuminate\Http\Response
+     * @param  \App\Movie  $movie 
+     * @return \Illuminate\Http\Response 
      */
     public function show(Movie $movie)
     {
-        // dd(Movie::find($movie->id));
-        return view('movies.show', compact('movie'));
+        // dd(Movie::find($movie->id)->user);
+        $added_by = Movie::find($movie->id)->user->name;
+        return view('movies.show', compact('movie','added_by'));
     } 
 
     /**

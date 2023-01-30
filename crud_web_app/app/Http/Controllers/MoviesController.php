@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use App\Models\Movie;
+use App\Models\Comment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\carbon;
@@ -18,13 +19,13 @@ class MoviesController extends Controller
 
 
 
-    public function index() 
-    {   
- 
+    public function index()
+    {
+
         $movies = Movie::latest()->paginate(3);
         return view('movies.index', compact('movies'))->with('i', (request()->input('page', 1)));
     }
- 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -33,7 +34,7 @@ class MoviesController extends Controller
     public function create()
     {
 
-        $genres = ['Action', 'Comedy', 'Biopic', 'Horror', 'Drama'];       
+        $genres = ['Action', 'Comedy', 'Biopic', 'Horror', 'Drama'];
         return view('movies.create', compact('genres'));
     }
 
@@ -45,10 +46,11 @@ class MoviesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate(['title' => 'required',
+        $request->validate([
+            'title' => 'required',
             'genre' => 'required',
             'poster' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-            
+
         ]);
 
         $imageName = '';
@@ -76,10 +78,20 @@ class MoviesController extends Controller
      */
     public function show(Movie $movie)
     {
-        // dd(Movie::find($movie->id)->user);
+        $comment = Movie::find($movie->id)->comment;
+        dd($comment);
+        $post_id = Movie::find($movie->id)->post_id;
         $added_by = Movie::find($movie->id)->user->name;
-        return view('movies.show', compact('movie','added_by'));
-    } 
+        return view('movies.show', compact('movie', 'added_by', 'post_id'));
+    }
+
+    public function userAllPost(Request $request, $id)
+    {
+        // dd(User::with('posts')->get()); get all get of both the columns ..
+        $user_posts = User::find($id)->posts;
+        return view('movies/userPost', compact('user_posts'));
+
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -119,6 +131,18 @@ class MoviesController extends Controller
         $movie->release_year = $request->release_year;
         $movie->update();
         return redirect()->route('movies.index')->with('success', 'Movie has been updated successfully.');
+
+    }
+
+
+    public function comment(Request $request, $id)
+    {
+        $data = new Comment;
+        $data->comment = $request->comment;
+        $data->comment_id = $request->id;
+        $data->save();
+
+        return redirect()->route('movies.index')->with('comment', 'Comment has been added successfully.');
 
     }
 

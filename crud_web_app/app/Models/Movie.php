@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Comment;
 
 class Movie extends Model
 {
@@ -15,5 +16,10 @@ class Movie extends Model
       return $this->belongsTo(User::class, 'post_id'); 
   } 
 
+
+    public function comment(){
+    return $this->hasMany(Comment::class, 'comment_id');
+    }
+
 }
- 
+  

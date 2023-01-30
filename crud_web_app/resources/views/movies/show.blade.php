@@ -12,13 +12,21 @@
             <p class="card-text" >{{ $movie->genre }} | {{ $movie->release_year }} 
             <p class="card-text">Added By: {{$added_by}} </p> 
             </p>
+   
             </div>
-            </div>
+            </div> 
         </div>
+
+        <h5>Comments</h5>
+        
         <div class="col-4"></div>
     </div> 
     @endif
     <div class="text-right" style="width : 90%">
-    <a href="userPost">Watch all posts by {{$added_by}} </a></div>
+
+    <a href="{{ route('userAllPost', ['id' => $post_id]) }} ">Watch all posts by {{$added_by}}  </a></div>
+
+
+                              
 </div>
-@endsection
+@endsection 

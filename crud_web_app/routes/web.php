@@ -19,35 +19,38 @@ Route::get('/', function () {
     return view('welcome');
 });
  
-// Route::get('noaccess', function () {
-//     return view('auth.noaccess');
-// });
-Route::view('noaccess','auth.noaccess');
-Route::view('movies/userPost','movies.userPost');
+
+Route::view('movies/noaccess','auth.noaccess');
+// Route::view('movies/userPost','movies.userPost');
+
 
  
-
+// auth controller 
 Route::get('login', [AuthController::class, 'index'])->name('login');
 Route::get('register',[AuthController::class, 'register'] );
 Route::get('movies',[AuthController::class,'validAuth']);
 Route::get('dashboard',[AuthController::class,'userDetails'])->name('dashboard')-> middleware('auth');
-Route::get('logout',[AuthController::class, 'logout'] );
+Route::get('/logout',[AuthController::class, 'logout'] );
 Route::post('loginValidate',[AuthController::class, 'loginValidate'])->name('loginValidate');
 Route::post('registerValidate',[AuthController::class, 'registerValidate'])->name('registerValidate');
 Route::get('user/details',[AuthController::class, 'userDetails'])->name('userDetails');
 
-// Route::get('checkage',[AuthController::class, 'checkage']);
 
+Route::get('movies/userPost/{id?}',[MoviesController::class, 'userAllPost'])->name('userAllPost');
+Route::post('movies/comment/{id?}',[MoviesController::class, 'comment'])->name('comment');
+
+
+Route::group(['middleware' => ['auth', 'age']], function() {
+    Route::resource('movies',MoviesController::class);
+});
+
+
+
+// Route::get('checkage',[AuthController::class, 'checkage']);z
 
 // Route::middleware(['auth'])->group(function () {
 //     Route::resource('movies',MoviesController::class);
 
-
 // });
 
-Route::group(['middleware' => ['auth', 'age']], function() {
-    Route::resource('movies',MoviesController::class);
-
-
-});
 

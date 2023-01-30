@@ -28,7 +28,7 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany(Movie::class, 'post_id');
-    }
+    } 
 
     public function latestPost()
     {

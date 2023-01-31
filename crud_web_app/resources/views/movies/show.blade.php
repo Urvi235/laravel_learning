@@ -17,16 +17,27 @@
             </div> 
         </div>
 
-        <h5>Comments</h5>
         
-        <div class="col-4"></div>
+        
+        <h5>Comments</h5><br>
+        @if($comment_id)
+            <tbody>
+            @foreach($comment_id as $comment_id)
+                <tr>
+                    <td >{{$comment_id->comment}} :- {{$comment_id['user']->name}}</td><br>
+                </tr>
+            @endforeach
+            </tbody>
+        @endif
+
+
     </div> 
     @endif
     <div class="text-right" style="width : 90%">
 
-    <a href="{{ route('userAllPost', ['id' => $post_id]) }} ">Watch all posts by {{$added_by}}  </a></div>
+    <a href="{{ route('userAllPost', ['id' => $user_id]) }} ">Watch all posts by {{$added_by}}  </a></div>
 
-
+ 
                               
 </div>
 @endsection 

@@ -39,16 +39,29 @@
         @method('DELETE')
         <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure want to delete?')">Delete</button>
         </form>
+        
 
-
+        <!-- display error if comment is blank -->
+        @if($errors->any())
+        <div class="alert alert-danger">
+        <strong>Oops! There were some problems with your input.</strong>
+        <ul>
+            @foreach($errors->all() as $error)
+            <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+        </div>
+        @endif
 
         <h6>Add comment </h6>
         <form method="post" action="{{ route('comment', ['id' => $movie->id]) }} ">
+          
         @csrf
           <div class="form-group">
                             <textarea class="form-control" name="comment" value="{{ $movie->id }}" ></textarea>
                             <input type="hidden" />
                         </div>
+
                         <div class="form-group">
                             <input type="submit" class="btn btn-success" value="Add Comment" />
                         </div>

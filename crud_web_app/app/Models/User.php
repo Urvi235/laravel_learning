@@ -27,13 +27,18 @@ class User extends Authenticatable
 
     public function posts()
     {
-        return $this->hasMany(Movie::class, 'post_id');
+        return $this->hasMany(Movie::class, 'user_id');
     } 
 
-    public function latestPost()
-    {
-    return $this->hasOne(Movie::class, 'post_id')->latestOfMany();
-    }
+
+    // public function comments(){
+    //     return $this->hasMany(Comment::class, 'user_id');
+    //     }
+
+    // public function latestPost()
+    // {
+    // return $this->hasOne(Movie::class, 'user_id')->latestOfMany();
+    // }
 
 
     /**

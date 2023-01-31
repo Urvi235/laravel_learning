@@ -64,26 +64,25 @@ class MoviesController extends Controller
         $data->genre = $request->genre;
         $data->release_year = $request->release_year;
         $data->poster = $imageName;
-        $data->post_id = Auth::user()->id;
+        $data->user_id = Auth::user()->id;
         $data->save();
         // dd($data);
         return redirect()->route('movies.index')->with('success', 'Movie has been added successfully.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Movie  $movie 
-     * @return \Illuminate\Http\Response 
-     */
+
     public function show(Movie $movie)
     {
         $comment = Movie::find($movie->id)->comment;
-        dd($comment);
-        $post_id = Movie::find($movie->id)->post_id;
+        $user_id = Movie::find($movie->id)->user_id;
         $added_by = Movie::find($movie->id)->user->name;
-        return view('movies.show', compact('movie', 'added_by', 'post_id'));
+        $comment_id = Comment::where('movie_id', $movie->id)->with('user')->get();
+
+
+        return view('movies.show', compact('movie', 'added_by', 'user_id','comment','comment_id'));
     }
+
+
 
     public function userAllPost(Request $request, $id)
     {
@@ -93,12 +92,9 @@ class MoviesController extends Controller
 
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Movie  $movie
-     * @return \Illuminate\Http\Response
-     */
+
+
+
     public function edit(Movie $movie)
     {
         $genres = ['Action', 'Comedy', 'Biopic', 'Horror', 'Drama'];
@@ -137,9 +133,14 @@ class MoviesController extends Controller
 
     public function comment(Request $request, $id)
     {
+        $request->validate([
+            'comment' => 'required',
+        ]);
+
         $data = new Comment;
         $data->comment = $request->comment;
-        $data->comment_id = $request->id;
+        $data->movie_id = $request->id;
+        $data->user_id = Auth::user()->id;
         $data->save();
 
         return redirect()->route('movies.index')->with('comment', 'Comment has been added successfully.');

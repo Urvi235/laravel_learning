@@ -13,12 +13,12 @@ class Movie extends Model
 
     public function user()
    {
-      return $this->belongsTo(User::class, 'post_id'); 
+      return $this->belongsTo(User::class, 'user_id'); 
   } 
 
 
     public function comment(){
-    return $this->hasMany(Comment::class, 'comment_id');
+    return $this->hasMany(Comment::class, 'movie_id');
     }
 
 }

@@ -97,8 +97,15 @@ class MoviesController extends Controller
 
     public function edit(Movie $movie)
     {
-        $genres = ['Action', 'Comedy', 'Biopic', 'Horror', 'Drama'];
-        return view('movies.edit', compact('movie', 'genres'));
+        // dd(Auth::user()->id);
+        if (Auth::user()->id == $movie->user_id){
+            $genres = ['Action', 'Comedy', 'Biopic', 'Horror', 'Drama'];
+            return view('movies.edit', compact('movie', 'genres'));
+        }
+        else{
+            return redirect()->route('movies.index')->with('sorry', 'You have no access to update this post.'); 
+        }
+
     }
 
     /**

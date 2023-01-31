@@ -12,6 +12,10 @@
 <div class="alert alert-success text-center">{{ $messge }}</div> 
 @endif
 
+@if($messge = Session::get('sorry'))
+<div class="alert alert-danger text-center">{{ $messge }}</div> 
+@endif
+
 <table class="table">
   <thead>
     <tr> 
@@ -39,7 +43,7 @@
         @method('DELETE')
         <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure want to delete?')">Delete</button>
         </form>
-        
+
 
         <!-- display error if comment is blank -->
         @if($errors->any())

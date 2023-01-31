@@ -19,6 +19,8 @@
     </div>
     @endif
 
+
+    
         <form
             action="{{ route('movies.update', $movie->id) }}"
             method="POST"

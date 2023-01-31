@@ -6,7 +6,7 @@
         <div class="col-4"></div>
         <div class="col-4">
         <div class="card" style="width: 20rem;">
-            <img src="{{ asset('uploads/'.$movie->poster ) }}" class="card-img-top">
+            <img src="{{ asset( 'uploads/'.$movie->poster ) }}" class="card-img-top">
             <div class="card-body">
             <h5 class="card-title">{{ $movie->title }}</h5>
             <p class="card-text" >{{ $movie->genre }} | {{ $movie->release_year }} 
@@ -37,7 +37,7 @@
 
     <a href="{{ route('userAllPost', ['id' => $user_id]) }} ">Watch all posts by {{$added_by}}  </a></div>
 
- 
                               
 </div>
 @endsection 
+

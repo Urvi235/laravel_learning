@@ -8,7 +8,7 @@ use App\Models\User;
 use Hash; 
 use Session;
 use Carbon\Carbon;
-
+ 
 class AuthController extends Controller
 {
 
@@ -47,22 +47,26 @@ class AuthController extends Controller
 
     }
 
-    public function loginValidate(Request $request){
+    public function loginValidate(Request $request){ 
         $validator =   $request->validate([
             'email' => 'required',
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email','password');
-        // dd(Auth::attempt($credentials));
+        if($validator){
 
-        if(Auth::attempt($credentials)){   
-            // return ['done'];   
-            return redirect()->route('dashboard')->withSuccess('greate you have successfully loggedin...');
+            $credentials = $request->only('email','password');
+            // dd(Auth::attempt($credentials));
+    
+            if(Auth::attempt($credentials)){   
+                // return ['done'];   
+                return redirect()->route('dashboard')->withSuccess('greate you have successfully loggedin...');
+            }
+            else{
+                return redirect()->route('login')->withSuccess('OOPS! Invalid credentials, Try again...');
+            }
         }
-        else{
-            return redirect()->route('login')->withSuccess('OOPS! Invalid credentials, Try again...');
-        }
+
      
     }
 

@@ -1,9 +1,13 @@
-@extends('auth.layout')
+@extends('admin.adminLayout')
 
 @section('content')
 
 <div class="wrapperdiv">
 <h3>Welcome to the Admin dashboard</h3> 
+
+@if($messge = Session::get('success'))
+<div class="alert alert-success text-center">{{ $messge }}</div> 
+@endif
 
 <!-- @if($messge = Session::get('error'))
 <div class="alert alert-danger text-center">{{ $messge }}</div> 
@@ -32,9 +36,12 @@
             <td class="align-middle">{{ $user->dob }}</td>
             <!-- @method('DELETE') -->
             <td class="align-middle">
-    
-                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure want to delete this user?')">Delete</button>
-
+              <form action="{{ route('deleteUser', $user->id) }}" method="post">
+                  <a href="{{ route('showUserDetail', $user->id)}}" class="btn btn-info">Show</a>
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure want to delete this user?')">Delete</button>
+              </form>
             </td>
         </tr>
      

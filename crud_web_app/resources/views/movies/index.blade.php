@@ -36,14 +36,14 @@
       <td class="align-middle">{{ $movie->release_year }}</td>
       <td class="align-middle"> 
         <form action="{{ route('movies.destroy', $movie->id) }}" method="post">
-          <a href="{{ route('movies.show', $movie->id)}} " class="btn btn-info">Show</a>
-        @if (Auth::user()->id == $movie->user_id)
-          <a href="{{ route('movies.edit', $movie->id)}}" class="btn btn-primary">Edit</a>
+            <a href="{{ route('movies.show', $movie->id)}} " class="btn btn-info">Show</a>
+           @if (Auth::user()->id == $movie->user_id)
+            <a href="{{ route('movies.edit', $movie->id)}}" class="btn btn-primary">Edit</a>
           
-          @csrf
-          @method('DELETE')
-          <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure want to delete?')">Delete</button>
-        @endif
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure want to delete?')">Delete</button>
+          @endif
         </form>
 
 

@@ -19,23 +19,22 @@ use App\Http\Controllers\AuthController;
 Route::get('/', function () {
     return view('welcome');
 });
- 
-
-// Route::view('movies/noaccess','auth.noaccess');
-// Route::view('movies/userPost','movies.userPost');
 
 // Admin login routes : ---
-Route::get('admin/login', [AdminController::class, 'adminIndex'])->name('adminlogin');
-Route::get('admin/register', [AdminController::class, 'adminRegister'])->name('adminRegister');
-Route::post('admin/validateAdminRegister', [AdminController::class, 'validateAdminRegister'])->name('validateAdminRegister');
-Route::post('admin/validateAdminLogin',[AdminController::class, 'validateAdminLogin'])->name('validateAdminLogin');
-// Route::get('admin/adminDashbord',[AdminController::class, 'adminDashbord'])->name('adminDashbord')->middleware('guest:admin');
-Route::group(['middleware' => ['guest:admin']], function () {
-    Route::get('admin/adminDashbord', [AdminController::class, 'adminDashbord'])->name('adminDashbord');
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/login', [AdminController::class, 'adminIndex'])->name('adminlogin');
+    Route::get('/register', [AdminController::class, 'adminRegister'])->name('adminRegister');
+    Route::post('/validate/admin/register', [AdminController::class, 'validateAdminRegister'])->name('validateAdminRegister');
+    Route::post('/validate/admin/login',[AdminController::class, 'validateAdminLogin'])->name('validateAdminLogin');
+    Route::get('/logout',[AdminController::class, 'adminLogout'] );
+    Route::group(['middleware' => ['guest:admin']], function () {
+        Route::get('/dashbord', [AdminController::class, 'adminDashbord'])->name('adminDashbord');
+        Route::delete('/delete/user/{id?}', [AdminController::class, 'deleteUser'])->name('deleteUser');
+        Route::get('/show/user/details/{id?}', [AdminController::class, 'showUserDetail'])->name('showUserDetail');
+    });
 });
 
 
- 
 // user login routes : --- 
 Route::get('login', [AuthController::class, 'index'])->name('login');
 Route::get('register',[AuthController::class, 'register'] );

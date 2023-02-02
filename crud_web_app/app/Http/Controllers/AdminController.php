@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use Illuminate\Http\Request;
 use Hash; 
+use Session;
 
 class AdminController extends Controller
 {
@@ -25,7 +26,7 @@ class AdminController extends Controller
             $credentials = $request->only('email', 'password');
             // dd(Auth::guard('admin')->attempt($credentials));
             if(Auth::guard('admin')->attempt($credentials)) {
-                return redirect()->route('adminDashbord')->withSuccess('greate you have successfully loggedin...');
+                return redirect()->intended('admin/dashbord');
                 // return view('admin.adminDashboard');
             }
             else {
@@ -63,10 +64,43 @@ class AdminController extends Controller
     }
 
 
+    public function adminLogout() {
+        Session::flush();
+        Auth::guard('admin')->logout();
+
+        return redirect('admin/login');
+    }
+
+
     public function adminDashbord() {
         $users = User::all();
 
         return view('admin.adminDashboard', compact('users'));
+    }
+
+
+    public function showUserDetail($id) {
+        $user = User::find($id);
+
+        $user_posts = $user->posts;
+        
+        return view('admin.showUserDetails', compact('user', 'user_posts'));
+        // if ($user_posts > 0) {
+        // }
+        // else {
+        //     return ['sorry user have no posts '];
+        // }
+        // dd($user_posts);
+
+    }
+
+
+    public function deleteUser($id) {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('adminDashbord')->with('success', 'User has been removed successfully.');
+
     }
 
 }

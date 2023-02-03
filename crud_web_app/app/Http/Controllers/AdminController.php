@@ -26,7 +26,7 @@ class AdminController extends Controller
             $credentials = $request->only('email', 'password');
             // dd(Auth::guard('admin')->attempt($credentials));
             if(Auth::guard('admin')->attempt($credentials)) {
-                return redirect()->intended('admin/dashbord');
+                return redirect()->route('adminDashbord');
                 // return view('admin.adminDashboard');
             }
             else {
@@ -35,7 +35,6 @@ class AdminController extends Controller
 
         }
     }
-
 
     public function adminRegister(){
         return view('admin.registerAdmin');
@@ -58,7 +57,7 @@ class AdminController extends Controller
             $user->dob = $request->dob;
             $user->save();
 
-            return view('admin.adminDashboard');
+            return redirect()->route('adminDashbord');
 
         }
     }

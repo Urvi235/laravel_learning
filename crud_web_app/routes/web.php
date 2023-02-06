@@ -59,6 +59,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     // Movies route : ---
     Route::get('movies/userPost/{id?}',[MoviesController::class, 'userAllPost'])->name('userAllPost');
     Route::post('movies/comment/{id?}',[MoviesController::class, 'comment'])->name('comment');
+    
     Route::group(['middleware' => ['auth', 'age']], function() {
         Route::resource('movies',MoviesController::class);
     });

@@ -26,5 +26,6 @@ Route::group(['prefix' => 'movie'], function () {
     Route::post('/create', [MovieAPIController::class,'create']);
     Route::put('/update/{id}', [MovieAPIController::class,'update']);
     Route::delete('/delete/{id}', [MovieAPIController::class,'delete']);
+    Route::get('/get/user/posts', [MovieAPIController::class,'getUserPosts']);
 
 });

@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Movie;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
 
 class MovieAPIController extends Controller
 {
+    
     public function getMovies($id = null) {
         $movies = $id ? Movie::find($id) : Movie::all();
         return response()->json(["Status" => "Success", "movies" => $movies], 200);
     }
+
 
 
     public function create(Request $request) {
@@ -25,7 +26,7 @@ class MovieAPIController extends Controller
         ]);
 
         if($validator->fails()) {
-            return response()->json(['Status' => 'Error', 'Error' => $validator->errors()->first()], 403);
+            return response()->json(['Status' => 'Fail', 'Error' => $validator->errors()->first()], 403);
         }
 
         $imageName = '';
@@ -94,7 +95,22 @@ class MovieAPIController extends Controller
         $movie = Movie::findOrFail($id);
         $movie->delete();
 
-        return response()->json(['status' => 'success', 'Record has been deleted successfully']);
+        return response()->json(['status' => 'success', 'Record has been deleted successfully'], 200);
+    }
+
+
+
+    public function getUserPosts(Request $request) {
+        $user_id = User::find($request->id);
+        
+        if($user_id) {
+            $user_posts = $user_id->posts;
+           
+            return response()->json(['Status' => 'Success', 'User_Posts' => $user_posts], 200);
+        }
+        else {
+            return response()->json(['Status' => 'Fail', 'message' => 'Can not found user posts'], 403);
+        }
     }
 
 }

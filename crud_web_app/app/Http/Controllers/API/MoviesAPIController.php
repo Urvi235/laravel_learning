@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Movie;
 use App\Models\User;
 
 
-class MovieAPIController extends Controller
+class MoviesAPIController extends Controller
 {
     
     public function getMovies($id = null) {

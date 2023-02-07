@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\MovieAPIController;
+use App\Http\Controllers\API\UserAuthController;
+use App\Http\Controllers\API\MoviesAPIController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,11 +22,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::group(['prefix' => 'movie'], function () { 
-
-    Route::get('/get/{id?}', [MovieAPIController::class,'getMovies']);
-    Route::post('/create', [MovieAPIController::class,'create']);
-    Route::put('/update/{id}', [MovieAPIController::class,'update']);
-    Route::delete('/delete/{id}', [MovieAPIController::class,'delete']);
-    Route::get('/get/user/posts', [MovieAPIController::class,'getUserPosts']);
+    Route::group(['middleware' => ['auth:api']], function () {
+        Route::get('/get/{id?}', [MoviesAPIController::class,'getMovies']);
+        Route::post('/create', [MoviesAPIController::class,'create']);
+        Route::put('/update/{id}', [MoviesAPIController::class,'update']);
+        Route::delete('/delete/{id}', [MoviesAPIController::class,'delete']);
+        Route::get('/get/user/posts', [MoviesAPIController::class,'getUserPosts']);
+    });
 
 });
+
+
+Route::post('user/login', [UserAuthController::class, 'userLogin']);

@@ -43,16 +43,23 @@ class Handler extends ExceptionHandler
 
 
     protected function unauthenticated($request, AuthenticationException $exception) {
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
-        }
+        // if ($request->expectsJson()) {
+        //     return response()->json(['error' => 'Unauthenticated.'], 401);
+        // }
 
         if ($request->is('admin') || $request->is('admin/dashbord')) {
-            // return redirect()->guest('/login/admin');
             return redirect()->guest('/admin/login');
         }
 
+        else {
+            if($request->bearerToken() == null ) {
+                return response()->json(['Status' => "Fails","Message" => "Please enter valid access token"]);
+            }
+
+        }
+
         // return redirect('/');
-        return redirect()->guest(route('adminlogin'));
+        // return redirect()->guest(route('adminlogin'));
+
     }
 }

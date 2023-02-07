@@ -23,11 +23,19 @@ class RedirectIfAuthenticated
             return $next($request); 
         }
 
+        // if (Auth::guard($guard)->check()) {
+        //     return response()->json(["error" => true, "message" => "Unauthenticated"], 403);
+        // }
+        
         if (Auth::guard($guard)->check()) {
-            return redirect('/login');
+            return $next($request); 
         }
 
+
         return redirect('admin/login');
+
     }
 } 
+
+
 

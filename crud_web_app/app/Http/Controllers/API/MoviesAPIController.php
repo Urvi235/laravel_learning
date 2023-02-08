@@ -11,12 +11,26 @@ use App\Models\User;
 
 class MoviesAPIController extends Controller
 {
-    
-    public function getMovies($id = null) {
-        $movies = $id ? Movie::find($id) : Movie::all();
-        return response()->json(["Status" => "Success", "movies" => $movies], 200);
-    }
 
+    public function getMovies($id = null) {
+
+        $movies = $id ? Movie::find($id) : Movie::all();
+
+        if ($id == null) {
+            $movies_arr = [];
+            foreach ($movies as $key => $value) {
+                $value['poster'] = asset('uploads/' . $value->poster);
+                array_push($movies_arr, $value);
+            }
+
+            return response()->json(['success' => true, 'data' => $movies_arr]);
+        }
+        else{
+            $movies['poster'] = asset('uploads/' . $movies->poster);
+            return response()->json(['success' => true, 'data' => $movies]);
+        }
+    }
+    
 
 
     public function create(Request $request) {
@@ -31,9 +45,12 @@ class MoviesAPIController extends Controller
         }
 
         $imageName = '';
+        $imgPath = '';
+        
         if ($request -> poster) {
             $imageName = time() . '.' . $request->poster->extension();
-            $request->poster->move(public_path('uploads'), $imageName);
+            $imgPath = $request->poster->move(public_path('uploads'), $imageName);
+
         }
 
         // $genres = ['Action', 'Comedy', 'Biopic', 'Horror', 'Drama'];
@@ -68,7 +85,7 @@ class MoviesAPIController extends Controller
         ]);
 
         if($validator->fails()) {
-            return response()->json(['Status' => 'Error', 'Error' => $validator->errors()->first()], 403);
+            return response()->json(['Status' => 'Error', 'Error' => $validator->errors()->first()], 401);
         }
 
 
@@ -107,10 +124,10 @@ class MoviesAPIController extends Controller
         if($user_id) {
             $user_posts = $user_id->posts;
            
-            return response()->json(['Status' => 'Success', 'User_Posts' => $user_posts], 200);
+            return response()->json(['Status' => 'Success', 'Data' => $user_posts], 200);
         }
         else {
-            return response()->json(['Status' => 'Fail', 'message' => 'Can not found user posts'], 403);
+            return response()->json(['Status' => 'Fail', 'message' => 'Can not found user posts'], 401);
         }
     }
 

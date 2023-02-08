@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
+use Session;
+
 
 class UserAuthController extends Controller
 {
@@ -31,5 +33,12 @@ class UserAuthController extends Controller
                 return response()->json(['Status' => 'Fail', 'error'=>'Unauthorised'], 401);
             }
         }
+    }
+
+    public function userLogout() {
+        Session::flash();
+        Auth::logout();
+
+        return response()->json(['status' => 'Success', "message" => 'User has been logged out successfully']);
     }
 }

@@ -32,5 +32,6 @@ Route::group(['prefix' => 'movie'], function () {
 
 });
 
+Route::get('user/logout', [UserAuthController::class, 'userLogout'])->middleware('auth:api');
 
 Route::post('user/login', [UserAuthController::class, 'userLogin']);

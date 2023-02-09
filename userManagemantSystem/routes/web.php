@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\user\UserAuthController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +16,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('Auth.register');
-});
+// Route::get('/', function () {
+//     return view('Auth.register');
+// });
 
 
-// Route::()
+Route::get('/', [UserAuthController::class, 'register']);
+Route::post('register/validate', [UserAuthController::class, 'registerValidate'])->name('registerValidate');
+
+Route::get('/login', [UserAuthController::class, 'userLogin']);
+
+
+// Route::get('/email/verify', function () {
+//     return view('Auth.verify-email');
+// })->name('verification.notice');

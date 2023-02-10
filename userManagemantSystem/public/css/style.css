@@ -1,0 +1,62 @@
+.float-parent-element { 
+    width: 50%; 
+} 
+.float-child-element { 
+    float: left; 
+    width: 50%; 
+} 
+.red { 
+    /* background-color: red;  */
+    margin-left: 20%; 
+    height: 50px; 
+} 
+.yellow { 
+    margin-left: 50%; 
+    height: 50px; 
+    /* background-color: yellow;  */
+}
+
+
+
+
+.align {
+    text-align: center;
+    margin : 1%;
+}
+
+.wrapperdiv {
+    padding-top: 50px; 
+    /* background-color: #e3f2fd; */
+
+}
+
+.formcontainer {
+    width: 70%;
+    margin: 0 auto;
+
+}
+
+.img-thumbnail {
+    width: 250px;
+    margin: 15;
+
+
+}
+
+.w-5 {
+    width : 60%; 
+    /* align-self:baseline; */
+    display:list-item;
+    margin: 5 auto;
+}
+
+.columnwrap {
+    margin: 1%;
+}
+
+.text {
+    width: 30;
+    /* text-align: center; */
+    align-items: center;
+    margin: 3;
+}

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Auth\Events\Registered;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Auth;
 use Hash; 
 
 class UserAuthController extends Controller
@@ -46,7 +47,7 @@ class UserAuthController extends Controller
 
             // event(new Registered($user));
 
-            return view('Auth.login');
+            return redirect('/login');
         } 
 
         else {
@@ -72,14 +73,20 @@ class UserAuthController extends Controller
             // dd(Auth::attempt($credentials));
     
             if(Auth::attempt($credentials)){   
-                // return ['done'];   
+                // return view('user.dashboard');   
                 return redirect()->route('dashboard')->withSuccess('greate you have successfully loggedin...');
+
             }
             else{
                 return redirect()->route('login')->withSuccess('OOPS! Invalid credentials, Try again...');
             }
         }
+    }
 
-     
+
+    public function dashboard() {
+        $user = Auth::user();
+        
+        return view('user.dashboard', compact('user'));
     }
 }

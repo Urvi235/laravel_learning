@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\user\CampaignController;
 use App\Http\Controllers\user\UserAuthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -25,8 +26,14 @@ Route::get('/', [UserAuthController::class, 'register']);
 Route::post('register/validate', [UserAuthController::class, 'registerValidate'])->name('registerValidate');
 
 Route::get('/login', [UserAuthController::class, 'userLogin']);
+Route::post('/login/validate', [UserAuthController::class, 'loginValidate'])->name('loginValidate');
+Route::get('/dashboard', [UserAuthController::class, 'dashboard'])->name('dashboard');
 
 
-// Route::get('/email/verify', function () {
-//     return view('Auth.verify-email');
-// })->name('verification.notice');
+
+// Route::get('/home', [CampaignController::class, 'index'])->name('index');
+
+
+Route::resource('campaign',CampaignController::class);
+
+

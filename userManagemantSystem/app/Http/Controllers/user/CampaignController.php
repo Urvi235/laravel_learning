@@ -48,7 +48,7 @@ class CampaignController extends Controller
         } while (campaign::where("unique_id", "=", $data->unique_id)->first());
         $data->save();
 
-        return redirect()->route('campaign.index')->with('success', 'Movie has been added successfully.');
+        return redirect()->route('campaign.index')->with('success', 'Campaign has been added successfully.');
 
     }
 
@@ -64,16 +64,34 @@ class CampaignController extends Controller
 
     public function edit(campaign $campaign)
     {
-        return view('campaign.edit', compact('campaign'));
+
+        return view('user.edit', compact('campaign'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, campaign $campaign)
     {
-        //
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+        ]);
+
+        $imageName = '';
+        if ($request->img) {    
+            $imageName = time() . '.' . $request->img->extension();
+            $request->img->move(public_path('uploads'), $imageName);
+            $campaign->img = $imageName;
+        }
+
+        $campaign->title = $request->title;
+        $campaign->Description = $request->description;
+        $campaign->update();
+        return redirect()->route('campaign.index')->with('success', 'Campaign has been updated successfully.');
     }
 
     public function destroy($id)
     {
-        //
+        $campaign = campaign::findOrFail($id);
+        $campaign->delete();
+        return redirect()->route('campaign.index')->with('success', 'Campaign has been deleted successfully.');
     }
 }

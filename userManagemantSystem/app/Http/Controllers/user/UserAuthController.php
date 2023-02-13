@@ -7,6 +7,7 @@ use Illuminate\Auth\Events\Registered;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
+use Session;
 use Hash; 
 
 class UserAuthController extends Controller
@@ -58,7 +59,13 @@ class UserAuthController extends Controller
 
 
     public function userLogin() {
-        return view('Auth.login');
+        // dd(auth()->check());
+        if(auth()->check()){
+            return redirect()->route('dashboard');
+        }
+        else {
+            return view('Auth.login');
+        }
     }
 
     public function loginValidate(Request $request){ 
@@ -88,5 +95,14 @@ class UserAuthController extends Controller
         $user = Auth::user();
         
         return view('user.dashboard', compact('user'));
+    }
+
+
+    public function userLogout() {
+        Session::flush();
+        Auth::logout();
+
+        return redirect()->route('login');
+
     }
 }

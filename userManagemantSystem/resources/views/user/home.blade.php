@@ -23,10 +23,18 @@
     <tr>
       <td class="align-middle"><img src="{{ asset('uploads/'.$campaign->img ) }} " class="img-thumbnail" /></td>
       <td class="align-middle" style="width : 8%" >{{ $campaign->title }}</td>
-      <td class="text">{{ $campaign->Description }}</td>
+      <td class="text">{{!!$campaign->Description!!}}</td>
       <td class="align-middle">
-        <a href="{{ route('campaign.show', $campaign->unique_id)}} "  class="btn btn-info">Show  </a>
-      
+        <form action="{{ route('campaign.destroy', $campaign->id) }}" method="post">
+
+          <a href="{{ route('campaign.show', $campaign->unique_id)}} "  class="btn btn-info">Show  </a>
+          
+          @if (Auth::user()->id == $campaign->user_id)
+            <a href="{{ route('campaign.edit', $campaign->id)}}" class="btn btn-primary">Edit </a>
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure want to delete?')">Delete</button>
+          @endif
         </form>
       </td>
      

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\user\CampaignController;
 use App\Http\Controllers\user\UserAuthController;
 use Illuminate\Support\Facades\Route;
@@ -17,23 +18,25 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 |
 */
 
-// Route::get('/', function () {
-//     return view('Auth.register');
+Route::get('/', function () {
+    return view('Auth.register');
+});
+
+// Route::group(['middleware' => ['verified']], function() {
+    Route::get('/register', [UserAuthController::class, 'register']);
+    Route::post('register/validate', [UserAuthController::class, 'registerValidate'])->name('registerValidate');
+    Route::get('/login', [UserAuthController::class, 'userLogin'])->name('login');
+    Route::post('/login/validate', [UserAuthController::class, 'loginValidate'])->name('loginValidate');
 // });
 
-
-Route::get('/', [UserAuthController::class, 'register']);
-Route::post('register/validate', [UserAuthController::class, 'registerValidate'])->name('registerValidate');
-
-Route::get('/login', [UserAuthController::class, 'userLogin']);
-Route::post('/login/validate', [UserAuthController::class, 'loginValidate'])->name('loginValidate');
-Route::get('/dashboard', [UserAuthController::class, 'dashboard'])->name('dashboard');
+Route::get('/logout',[UserAuthController::class, 'userLogout'] );
 
 
+Route::group(['middleware' => ['auth']], function() {
+    Route::resource('campaign',CampaignController::class);
+    Route::get('/dashboard', [UserAuthController::class, 'dashboard'])->name('dashboard');
+});
 
-// Route::get('/home', [CampaignController::class, 'index'])->name('index');
 
 
-Route::resource('campaign',CampaignController::class);
-
-
+Route::get('admin/dashboard', [AdminController::class, 'adminDashboard']);

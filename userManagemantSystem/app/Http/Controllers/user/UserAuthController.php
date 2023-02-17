@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\user;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Auth\Events\Registered;
+use App\Mail\VerifyEmail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Auth;
+use Illuminate\Support\Str;
 use Session;
+use Mail; 
 use Hash; 
 
 class UserAuthController extends Controller
@@ -44,9 +46,11 @@ class UserAuthController extends Controller
             $user->dob = $request->dob;
             $user->gender = $request->gender;
             $user->address = $request->address;
+            $user->remember_token = Str::random(60);
             $user->save();
 
             // event(new Registered($user));
+            Mail::to($user->email)->send(new VerifyEmail($user));
 
             return redirect('/login');
         } 

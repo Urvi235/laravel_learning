@@ -9,6 +9,11 @@
                 </div>
             </div>
         </div>
+        @if($messge = Session::get('error'))
+            <div class="alert alert-danger text-center">{{ $messge }}</div> 
+            @endif
+
+            
         @if($errors->any())
         <div class="alert alert-danger">
             <strong>Oops! There were some problems with your input.</strong>
@@ -19,6 +24,8 @@
             </ul>
         </div>
         @endif
+
+       
         
         <form action="{{ route('campaign.store') }}" method="POST" enctype="multipart/form-data">
             @csrf

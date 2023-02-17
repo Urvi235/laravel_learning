@@ -37,9 +37,15 @@ class CampaignController extends Controller
             $request->img->move(public_path('uploads'), $imageName);
         }
 
+        $title = campaign::where("title", "=", $request->title)->where("user_id", "=",Auth::user()->id)->first();
 
         $data = new campaign;
-        $data->title = $request->title;
+        if($title) {
+            return view('user.create')->with('error', 'name Already been taken please try with another name');
+        }
+        else {
+            $data->title = $request->title;
+        }
         $data->Description = $request->description;
         $data->img = $imageName;
         $data->user_id = Auth::user()->id;
@@ -73,7 +79,11 @@ class CampaignController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
+            'img' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+
         ]);
+
+
 
         $imageName = '';
         if ($request->img) {    
@@ -82,7 +92,15 @@ class CampaignController extends Controller
             $campaign->img = $imageName;
         }
 
-        $campaign->title = $request->title;
+        $title = campaign::where("title", "=", $request->title)->where("user_id", "=",Auth::user()->id)->first();
+
+        if($title) {
+            return view('user.edit', compact('campaign'))->with('error', 'name Already been taken please try with another name');
+        }
+        else{
+            $campaign->title = $request->title;
+        }
+   
         $campaign->Description = $request->description;
         $campaign->update();
         return redirect()->route('campaign.index')->with('success', 'Campaign has been updated successfully.');

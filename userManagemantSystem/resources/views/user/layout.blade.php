@@ -24,7 +24,7 @@
           <div class="navbar-nav">
             <a class="nav-link active" href="{{ route('campaign.create') }}">Create-Campaign</a>
             
-            <a class="nav-link" href="dashboard">Dashboard</a>
+            <a class="nav-link" href="{{ route('dashboard') }}">Dashboard</a>
 
           </div>
         </div>

@@ -23,7 +23,7 @@
     <tr>
       <td class="align-middle"><img src="{{ asset('uploads/'.$campaign->img ) }} " class="img-thumbnail" /></td>
       <td class="align-middle" style="width : 8%" >{{ $campaign->title }}</td>
-      <td class="text">{{!!$campaign->Description!!}}</td>
+      <td class="text">{!!$campaign->Description!!}</td>
       <td class="align-middle">
         <form action="{{ route('campaign.destroy', $campaign->id) }}" method="post">
 

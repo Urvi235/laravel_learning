@@ -37,6 +37,8 @@ class UserAuthController extends Controller
             'address' => 'required',
         ],$messages);
 
+        $token = Str::random(60);
+
         if($validator) {
             $user = new User;
             $user->first_name = $request->first_name;
@@ -46,13 +48,12 @@ class UserAuthController extends Controller
             $user->dob = $request->dob;
             $user->gender = $request->gender;
             $user->address = $request->address;
-            $user->remember_token = Str::random(60);
+            $user->remember_token = $token;
             $user->save();
 
-            // event(new Registered($user));
             Mail::to($user->email)->send(new VerifyEmail($user));
 
-            return redirect('/login');
+            return redirect('/login')->with('success', 'Great! You have Successfully registered, Please check your mail id to verify ypur mail');
         } 
 
         else {
@@ -63,7 +64,7 @@ class UserAuthController extends Controller
 
 
     public function userLogin() {
-        // dd(auth()->check());
+
         if(auth()->check()){
             return redirect()->route('dashboard');
         }
@@ -85,11 +86,11 @@ class UserAuthController extends Controller
     
             if(Auth::attempt($credentials)){   
                 // return view('user.dashboard');   
-                return redirect()->route('dashboard')->withSuccess('greate you have successfully loggedin...');
+                return redirect()->route('dashboard')->with('success','greate you have successfully loggedin...');
 
             }
             else{
-                return redirect()->route('login')->withSuccess('OOPS! Invalid credentials, Try again...');
+                return redirect()->route('login')->with('error','OOPS! Invalid credentials, Try again...');
             }
         }
     }
@@ -108,5 +109,28 @@ class UserAuthController extends Controller
 
         return redirect()->route('login');
 
+    }
+
+    public function verifyAccount($token) {
+        $verifyUser = User::where('remember_token', $token)->first();
+        // dd(!is_null($verifyUser));
+        if(!is_null($verifyUser)) {
+            $user = $verifyUser;
+            
+            $message = 'Sorry your email cannot be identified.';
+            
+         
+            if(!$user->is_email_verified) {
+                $verifyUser->is_email_verified = 1;
+                $verifyUser->save();
+                $message = "Your e-mail is verified. You can now login.";
+            }
+
+            else {
+                $message = "Your e-mail is already verified. You can now login.";
+            }
+        }
+
+        return redirect()->route('login')->with('message', $message);
     }
 }

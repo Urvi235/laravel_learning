@@ -2,6 +2,12 @@
 
 @section('content')
 
+@if($messge = Session::get('success'))
+            <div class="alert alert-success text-center">{{ $messge }}</div> 
+            @endif
+
+
+
 <div class="wrapperdiv">
 <div class="float-parent-element">
     <div class="float-child-element">

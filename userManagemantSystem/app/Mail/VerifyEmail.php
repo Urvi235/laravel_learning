@@ -16,9 +16,11 @@ class VerifyEmail extends Mailable
      *
      * @return void
      */
-    public function __construct()
+
+    public $user;
+    public function __construct($user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -29,7 +31,8 @@ class VerifyEmail extends Mailable
     public function build()
     {
         return $this->markdown('emails.verify-email')->with([
-            'url' => route('login'), 
+
+            'url' => $this->user->remember_token, 
         ]);
     }
 }

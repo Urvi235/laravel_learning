@@ -32,7 +32,7 @@ Route::get('/', function () {
 Route::get('/logout',[UserAuthController::class, 'userLogout'] );
 
 
-Route::group(['middleware' => ['auth']], function() {
+Route::group(['middleware' => ['auth','is_verify_email']], function() {
     Route::resource('campaign',CampaignController::class);
     Route::get('/dashboard', [UserAuthController::class, 'dashboard'])->name('dashboard');
 });
@@ -40,3 +40,5 @@ Route::group(['middleware' => ['auth']], function() {
 
 
 Route::get('admin/dashboard', [AdminController::class, 'adminDashboard']);
+Route::get('account/verify/{token}', [UserAuthController::class, 'verifyAccount'])->name('user.verify'); 
+

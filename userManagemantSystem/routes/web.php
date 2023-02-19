@@ -27,6 +27,7 @@ Route::get('/', function () {
     Route::post('register/validate', [UserAuthController::class, 'registerValidate'])->name('registerValidate');
     Route::get('/login', [UserAuthController::class, 'userLogin'])->name('login');
     Route::post('/login/validate', [UserAuthController::class, 'loginValidate'])->name('loginValidate');
+    Route::get('account/verify/{token}', [UserAuthController::class, 'verifyAccount'])->name('user.verify'); 
 // });
 
 Route::get('/logout',[UserAuthController::class, 'userLogout'] );
@@ -40,5 +41,5 @@ Route::group(['middleware' => ['auth','is_verify_email']], function() {
 
 
 Route::get('admin/dashboard', [AdminController::class, 'adminDashboard']);
-Route::get('account/verify/{token}', [UserAuthController::class, 'verifyAccount'])->name('user.verify'); 
-
+Route::get('admin/login', [AdminController::class, 'adminLogin'])->name('adminLogin');
+Route::post('admin/login/validate', [AdminController::class, 'validateAdminLogin'])->name('validateAdminLogin');

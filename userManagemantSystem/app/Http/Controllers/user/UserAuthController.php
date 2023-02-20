@@ -14,9 +14,7 @@ use Hash;
 
 class UserAuthController extends Controller
 {
-    public function register() {
-        return view('Auth.register');
-    }
+
 
     public function registerValidate(Request $request) {
         $messages = [
@@ -99,7 +97,7 @@ class UserAuthController extends Controller
     public function dashboard() {
         $user = Auth::user();
         
-        return view('user.dashboard', compact('user'));
+        return view('campaign.dashboard', compact('user'));
     }
 
 

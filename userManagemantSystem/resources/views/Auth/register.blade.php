@@ -1,6 +1,7 @@
 @extends('Auth.layout')
 
 @section('content')
+
 <main class="login-form">
   <div class="cotainer">
       <div class="row justify-content-center">
@@ -8,7 +9,7 @@
               <div class="card">
                   <div class="card-header">Register</div>
                   <div class="card-body">
-  
+
                       
                     <form action="{{ route('registerValidate') }}" method="POST">
                           @csrf
@@ -91,15 +92,7 @@
                                 </script>
                           </div>
   
-                          <div class="form-group row">
-                              <div class="col-md-6 offset-md-4">
-                                  <div class="checkbox">
-                                      <label>
-                                          <input type="checkbox" name="remember"> Remember Me
-                                      </label>
-                                  </div>
-                              </div>
-                          </div>
+                          
   
                           <div class="col-md-6 offset-md-4">
                               <button type="submit" class="btn btn-primary">

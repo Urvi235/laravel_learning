@@ -13,14 +13,14 @@ class CampaignController extends Controller
     public function index()
     {
         $campaign = campaign::latest()->paginate(3);
-        // dd($campaign);
-        return view('user.home', compact('campaign'))->with('i', (request()->input('page', 1)));
+
+        return view('campaign.home', compact('campaign'))->with('i', (request()->input('page', 1)));
     }
 
 
     public function create()
     {
-        return view('user.create');
+        return view('campaign.create');
     }
 
     public function store(Request $request)
@@ -41,11 +41,16 @@ class CampaignController extends Controller
 
         $data = new campaign;
         if($title) {
-            return view('user.create')->with('error', 'name Already been taken please try with another name');
+            return redirect('campaign/create')->with('error', 'Campaign name has been already taken, Try with another one');
         }
         else {
             $data->title = $request->title;
         }
+        
+
+        // $string = substr($string,(strpos($string, 'P') > -1));
+        // dd(substr($request->description), (strpos($request->description, 'the') > 6));
+
         $data->Description = $request->description;
         $data->img = $imageName;
         $data->user_id = Auth::user()->id;
@@ -58,20 +63,16 @@ class CampaignController extends Controller
 
     }
 
-
     public function show($unique_id)
     {
         $campaign = campaign::where('unique_id',$unique_id)->first();
-
-        return view('user.show', compact('campaign'));
-
+        return view('campaign.show', compact('campaign'));
 
     }
 
     public function edit(campaign $campaign)
     {
-
-        return view('user.edit', compact('campaign'));
+        return view('campaign.edit', compact('campaign'));
     }
 
     public function update(Request $request, campaign $campaign)
@@ -83,8 +84,8 @@ class CampaignController extends Controller
 
         ]);
 
-
-
+        $id = $campaign->id;
+    
         $imageName = '';
         if ($request->img) {    
             $imageName = time() . '.' . $request->img->extension();
@@ -92,15 +93,19 @@ class CampaignController extends Controller
             $campaign->img = $imageName;
         }
 
-        $title = campaign::where("title", "=", $request->title)->where("user_id", "=",Auth::user()->id)->first();
 
-        if($title) {
-            return view('user.edit', compact('campaign'))->with('error', 'name Already been taken please try with another name');
-        }
-        else{
+        if($campaign->title == $request->title) {
             $campaign->title = $request->title;
         }
-   
+        else{
+            $title = campaign::where("title", "=", $request->title)->where("user_id", "=",Auth::user()->id)->first();
+            if($title) {
+                return redirect()->route('campaign.edit', $campaign->id)->with('error', 'Campaign name has been already taken, Try with another one');
+            }
+            else{
+                $campaign->title = $request->title;
+            }
+        }
         $campaign->Description = $request->description;
         $campaign->update();
         return redirect()->route('campaign.index')->with('success', 'Campaign has been updated successfully.');

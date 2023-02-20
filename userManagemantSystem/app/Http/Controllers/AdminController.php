@@ -8,6 +8,7 @@ use App\Models\User;
 use Auth;
 use Mail;
 use Hash;
+use Session;
 use App\Mail\VerifyEmail;
 use Illuminate\Support\Str;
 
@@ -31,26 +32,25 @@ class AdminController extends Controller
         return view('admin/login');
       }
 
-    //   public function validateAdminLogin(Request $request) {
-    //     $validator = $request->validate([
-    //         'email' => 'required',
-    //         'password' => 'required',
-    //     ]);
+      public function validateAdminLogin(Request $request) {
+        $validator = $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
 
-    //     if($validator) {  
-    //         $credentials = $request->only('email');
-    //         // dd($credentials);
-    //         dd(Auth::guard('admin')->attempt(array('email'=> $request->email)));
-    //         if(Auth::guard('admin')->attempt($credentials)) {
-    //             return redirect()->route('adminDashbord');
-    //             // return view('admin.adminDashboard');
-    //         }
-    //         else {
-    //             return redirect()->route('adminlogin');
-    //         }
+        if($validator) {  
+            $credentials = $request->only('email', 'password');
 
-    //     }
-    // }      
+            // dd(Auth::guard('admin')->attempt($credentials));
+            if(Auth::guard('admin')->attempt($credentials)) {
+                return redirect()->route('adminDashbord');
+            }
+            else {
+                return redirect()->route('adminlogin');
+            }
+
+        }
+    }      
 
     public function createUser(Request $request) {
         $messages = [
@@ -87,7 +87,7 @@ class AdminController extends Controller
 
         Mail::to($user->email)->send(new VerifyEmail($user));
 
-        return response()->json(['Status' => 'success', 'User'=> $user], 200);                
+        return response()->json(['status' => 'Done', 'data'=> $user], 200);                
     } 
 
     else {
@@ -96,5 +96,14 @@ class AdminController extends Controller
 
     }
     }
+
+
+    public function adminLogout() {
+      Session::flush();
+      Auth::guard('admin')->logout();
+
+      return redirect('admin/login');
+  }
 }
- 
+
+

@@ -63,4 +63,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     Route::group(['middleware' => ['auth', 'age']], function() {
         Route::resource('movies',MoviesController::class);
     });
+
+
+    
 });

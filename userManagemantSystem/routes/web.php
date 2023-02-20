@@ -19,6 +19,9 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 */
 
 Route::get('/', function () {
+    if(auth()->check()) {
+        return redirect()->route('dashboard'); 
+    }
     return view('Auth.register');
 });
 
@@ -30,16 +33,25 @@ Route::get('/', function () {
     Route::get('account/verify/{token}', [UserAuthController::class, 'verifyAccount'])->name('user.verify'); 
 // });
 
-Route::get('/logout',[UserAuthController::class, 'userLogout'] );
+
+Route::group(['middleware' => ['prevent-back-history']], function() {
+    Route::get('/logout',[UserAuthController::class, 'userLogout'] );
 
 
-Route::group(['middleware' => ['auth','is_verify_email']], function() {
-    Route::resource('campaign',CampaignController::class);
-    Route::get('/dashboard', [UserAuthController::class, 'dashboard'])->name('dashboard');
+    Route::group(['middleware' => ['auth','is_verify_email']], function() {
+        Route::resource('campaign',CampaignController::class);
+        Route::get('/dashboard', [UserAuthController::class, 'dashboard'])->name('dashboard');
+    });
+
 });
 
 
 
-Route::get('admin/dashboard', [AdminController::class, 'adminDashboard']);
+
+Route::get('admin/dashboard', [AdminController::class, 'adminDashboard'])->name('adminDashbord');
 Route::get('admin/login', [AdminController::class, 'adminLogin'])->name('adminLogin');
+Route::get('admin/logout', [AdminController::class, 'adminLogout']);
 Route::post('admin/login/validate', [AdminController::class, 'validateAdminLogin'])->name('validateAdminLogin');
+Route::post('create/user', [AdminController::class, 'createUser']);
+
+

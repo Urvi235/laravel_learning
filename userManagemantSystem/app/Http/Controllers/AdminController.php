@@ -6,12 +6,11 @@ use App\Mail\UserCreated;
 use App\Models\campaign;
 use Illuminate\Http\Request;
 use App\Models\User;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Mail;
 use Hash;
 use Session;
-use App\Mail\VerifyEmail;
 use Illuminate\Support\Str;
 
 class AdminController extends Controller
@@ -107,9 +106,14 @@ class AdminController extends Controller
 
       if($validator) {  
           $credentials = $request->only('email', 'password');
+        
 
           if(Auth::guard('admin')->attempt($credentials)) {
-            return response()->json(['status' => 'Success', 'message'=> 'You have successfully logged in' ], 200);                
+            $user = Auth::guard('admin')->user();
+          
+            $success =  $user->createToken('MyApp')->accessToken; 
+
+            return response()->json(['status' => 'Success','message' => 'You have successfully logged in', 'data'=> ['token' => $success] ], 200);                
           }
           else {
             return response()->json(['status' => 'Fail', 'message'=> 'Sorry invalide credentials' ], 401);                

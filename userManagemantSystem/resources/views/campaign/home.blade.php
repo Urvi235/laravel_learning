@@ -19,30 +19,35 @@
   </thead>
   @if($campaign)
   <tbody>
-      @foreach($campaign as $campaign)
+      @foreach($campaign as $campaigns)
     <tr>
-      <td class="align-middle"><img src="{{ asset('uploads/'.$campaign->img ) }} " class="img-thumbnail" /></td>
-      <td class="align-middle" style="width : 8%" >{{ $campaign->title }}</td>
-      <td class="text">{!!$campaign->Description!!}</td>
+      <td class="align-middle"><img src="{{ asset('uploads/'.$campaigns->img ) }} " class="img-thumbnail" /></td>
+      <td class="align-middle" style="width : 8%" >{{ $campaigns->title }}</td>
+      <td class="text">{!!$campaigns->Description!!}</td>
       <td class="align-middle">
-        <form action="{{ route('campaign.destroy', $campaign->id) }}" method="post">
+        <form action="{{ route('campaign.destroy', $campaigns->id) }}" method="post">
 
-          <a href="{{ route('campaign.show', $campaign->unique_id)}} "  class="btn btn-info">Show  </a>
+          <a href="{{ route('campaign.show', $campaigns->unique_id)}} "  class="btn btn-info">Show  </a>
           
-          @if (Auth::user()->id == $campaign->user_id)
-            <a href="{{ route('campaign.edit', $campaign->id)}}" class="btn btn-primary">Edit </a>
+          @if (Auth::user()->id == $campaigns->user_id)
+            <a href="{{ route('campaign.edit', $campaigns->id)}}" class="btn btn-primary">Edit </a>
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure want to delete?')">Delete</button>
           @endif
+
         </form>
       </td>
-     
+      
     </tr>
     @endforeach
   </tbody>
   @endif
 </table>
+
+  <div class="d-flex"> 
+          {!! $campaign->links() !!}
+  </div>
 
 </div>
 @endsection

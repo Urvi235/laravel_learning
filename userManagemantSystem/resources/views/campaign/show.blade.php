@@ -10,13 +10,10 @@
             <div class="card-body">
             <h5 class="card-title">{{ $campaign->title }}</h5>
             <p class="card-text" >{!! $campaign->Description !!}</p>
-            <div>URL :  <a href= "{{ asset('campaign/'.$campaign->unique_id ) }}"> {{ asset('campaign/'.$campaign->unique_id ) }}</a></div>
+            <div>URL :  <a href= "{{ (asset('campaign/'.$campaign->unique_id )) }}" target="_blank"> {{ asset('campaign/'.$campaign->unique_id ) }}</a></div>
             </div>
             </div> 
         </div>
-
-    
-
 
     </div> 
     @endif

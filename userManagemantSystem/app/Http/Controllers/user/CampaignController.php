@@ -10,6 +10,11 @@ use Auth;
 class CampaignController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['show']]);
+    }
+
     public function index()
     {
         $campaign = campaign::latest()->paginate(3);
@@ -46,10 +51,6 @@ class CampaignController extends Controller
         else {
             $data->title = $request->title;
         }
-        
-
-        // $string = substr($string,(strpos($string, 'P') > -1));
-        // dd(substr($request->description), (strpos($request->description, 'the') > 6));
 
         $data->Description = $request->description;
         $data->img = $imageName;

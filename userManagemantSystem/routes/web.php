@@ -25,33 +25,31 @@ Route::get('/', function () {
     return view('Auth.register');
 });
 
-// Route::group(['middleware' => ['verified']], function() {
+
     Route::get('/register', [UserAuthController::class, 'register']);
     Route::post('register/validate', [UserAuthController::class, 'registerValidate'])->name('registerValidate');
     Route::get('/login', [UserAuthController::class, 'userLogin'])->name('login');
     Route::post('/login/validate', [UserAuthController::class, 'loginValidate'])->name('loginValidate');
     Route::get('account/verify/{token}', [UserAuthController::class, 'verifyAccount'])->name('user.verify'); 
-// });
 
 
 Route::group(['middleware' => ['prevent-back-history']], function() {
     Route::get('/logout',[UserAuthController::class, 'userLogout'] );
 
-
-    Route::group(['middleware' => ['auth','is_verify_email']], function() {
+    // Route::group(['middleware' => ['auth','is_verify_email']], function() {
         Route::resource('campaign',CampaignController::class);
-        Route::get('/dashboard', [UserAuthController::class, 'dashboard'])->name('dashboard');
+        Route::get('/dashboard', [UserAuthController::class, 'dashboard'])->name('dashboard')->middleware('auth');
     });
 
-});
+// });
 
 
-
-
-Route::get('admin/dashboard', [AdminController::class, 'adminDashboard'])->name('adminDashbord');
 Route::get('admin/login', [AdminController::class, 'adminLogin'])->name('adminLogin');
-Route::get('admin/logout', [AdminController::class, 'adminLogout']);
+Route::get('admin/logout', [AdminController::class, 'adminLogout'])->middleware('prevent-back-history');
 Route::post('admin/login/validate', [AdminController::class, 'validateAdminLogin'])->name('validateAdminLogin');
 Route::post('create/user', [AdminController::class, 'createUser']);
 
 
+Route::group(['middleware' => ['guest:admin', 'prevent-back-history']], function () {
+    Route::get('admin/dashboard', [AdminController::class, 'adminDashboard'])->name('adminDashboard');
+});

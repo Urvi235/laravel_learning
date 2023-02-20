@@ -12,9 +12,12 @@ use Session;
 use Mail; 
 use Hash; 
 
+
 class UserAuthController extends Controller
 {
-
+    public function register() {
+            return view('Auth.register');
+    }
 
     public function registerValidate(Request $request) {
         $messages = [

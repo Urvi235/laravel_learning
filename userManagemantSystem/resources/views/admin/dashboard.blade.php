@@ -7,9 +7,7 @@
     <div class="float-child-element">
         <h4 class='red'>Welcome to the dashboard</h4>
     </div>
-    <div class="float-child-element">
-        <a class='yellow' href="{{ route('campaign.index') }}">Home</a>
-    </div>
+   
 </div>
 </div>
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\user;
+namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -52,7 +52,6 @@ class UserApiController extends Controller
         }
 
         $check_pass = Hash::check($request->old_password, $request->user()->password);
-        // dd($check_pass);
 
         if($check_pass) {
            User::find($request->user()->id)->update(['password'=> Hash::make($request->new_password)]);

@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\user\UserApiController;
+use App\Http\Controllers\api\AdminApiController;
+use App\Http\Controllers\api\UserApiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,9 +21,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // Admin Routes :
-Route::post('create/user', [AdminController::class, 'createUser']);
-Route::post('admin/login', [AdminController::class, 'adminLoginAPI']); 
-Route::get('get/admin', [AdminController::class, 'getAdminDetails'])->middleware('auth:adminApi');
+Route::post('create/user', [AdminApiController::class, 'createUser']);
+Route::post('admin/login', [AdminApiController::class, 'adminLoginAPI']); 
+Route::get('get/admin', [AdminApiController::class, 'getAdminDetails'])->middleware('auth:adminApi');
 
 
 // User Routes :

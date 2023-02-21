@@ -56,7 +56,7 @@ class UserApiController extends Controller
 
         if($check_pass) {
            User::find($request->user()->id)->update(['password'=> Hash::make($request->new_password)]);
-           
+
            return response()->json(['status' => 'Success','data' => ['message'=> 'Password has been updated successfully.']], 200);                
         }
         else {

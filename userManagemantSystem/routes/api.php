@@ -20,6 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::post('create/user', [AdminController::class, 'createUser']); 
+Route::post('create/user', [AdminController::class, 'createUser']);
 Route::post('admin/login', [AdminController::class, 'adminLoginAPI']); 
-
+Route::get('get/admin', [AdminController::class, 'getAdminDetails'])->middleware('auth:adminApi');

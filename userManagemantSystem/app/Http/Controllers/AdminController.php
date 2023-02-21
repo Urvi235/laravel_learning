@@ -119,15 +119,22 @@ class AdminController extends Controller
             return response()->json(['status' => 'Fail', 'message'=> 'Sorry invalide credentials' ], 401);                
           }
       }
-  } 
-
+    } 
 
     public function adminLogout() {
       Session::flush();
       Auth::guard('admin')->logout();
 
       return redirect('admin/login');
-  }
+    }
+
+    public function getAdminDetails(Request $request) {
+      $data = $request->user();
+      $user = ['name' => $data->name, 'email' => $data->email ];
+      
+      return response()->json(['status' => 'success', 'data' => $user], 200);
+    }
+
 }
 
 

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -33,7 +33,12 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $hidden = [
         'password',
        'updated_at',
-       'created_at'
+       'created_at',
+       'is_email_verified',
+       'remember_token',
+       'email_verified_at',
+       'email_verification_token'
+
     ];
 
     /**

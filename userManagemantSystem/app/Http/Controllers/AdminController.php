@@ -66,7 +66,7 @@ class AdminController extends Controller
           'first_name' => 'required | regex:/^[a-zA-Z]+$/u | regex:/^([^0-9]*)$/',
           'last_name' => 'required | regex:/^[a-zA-Z]+$/u | regex:/^([^0-9]*)$/',
           'email' => 'required|email|unique:users',
-          // 'password' => 'required|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+          'password' => 'required|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
           'dob' => 'required',
           'gender' => 'required',
           'address' => 'required',
@@ -116,8 +116,7 @@ class AdminController extends Controller
             return response()->json(['status' => 'Success','message' => 'You have successfully logged in', 'data'=> ['token' => $success] ], 200);                
           }
           else {
-            return response()->json(['status' => 'Fail', 'message'=> 'Sorry invalide credentials' ], 401);                
-          }
+            return response()->json(['status' => 'Fail', 'data' => ['message'=> 'Please enter valid credentials'] ], 401);            }
       }
     } 
 

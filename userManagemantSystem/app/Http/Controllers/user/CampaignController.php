@@ -17,7 +17,7 @@ class CampaignController extends Controller
 
     public function index()
     {
-        $campaign = campaign::latest()->paginate(3);
+        $campaign = campaign::latest()->paginate(5);
 
         return view('campaign.home', compact('campaign'))->with('i', (request()->input('page', 1)));
     }

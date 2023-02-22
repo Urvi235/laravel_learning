@@ -30,7 +30,7 @@
         </div>
 
         <div> 
-          <a class="nav-link" href='logout'>Logout</a>
+          <a class="nav-link" href='/logout'>Logout</a>
         </div>
 
       </div>

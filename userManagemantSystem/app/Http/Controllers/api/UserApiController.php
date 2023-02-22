@@ -12,29 +12,43 @@ use Validator;
 class UserApiController extends Controller
 {
     public function login(Request $request) {
-        $validator = $request->validate([
+        $validator = Validator::make($request->all(), [
             'email' => 'required',
             'password' => 'required',
         ]);
   
-        if($validator) {  
+        if($validator->fails()) {
+            return $this->sendFailResponse('please enter valid credentials.', $validator->errors());
+        }
+
+        try {
             $credentials = $request->only('email', 'password');
-          
             if(Auth::attempt($credentials)) {
-              $user = Auth::user();      
-              $success =  $user->createToken('MyApp')->accessToken; 
-  
-              return response()->json(['status' => 'Success','message' => 'You have successfully logged in', 'data'=> ['token' => $success] ], 200);                
+                $user = Auth::user();    
+                if ($user->tokens->first()) {
+                    $user->tokens->first()->revoke();
+                    $success =  $user->createToken('MyApp')->accessToken; 
+                    return $this->sendSuccessResponse('You have successfully logged in',['token' => $success]);
+                }
+                $success =  $user->createToken('MyApp')->accessToken; 
+                return $this->sendSuccessResponse('You have successfully logged in',['token' => $success]);
+
             }
+                
             else {
-              return response()->json(['status' => 'Fail', 'message'=> 'Sorry invalide credentials' ], 401);                
+                return $this->sendFailResponse('please enter valid credentials.');
             }
         }
+        catch(\Exception $exception) {
+            return $this->sendFailResponse('Sorry invalide credentials');
+        }    
+
+        
     }
     
     public function getUserDetail(Request $request) {
         $data = $request->user();
-        return response()->json(['status' => 'success', 'data' => $data], 200);
+        return $this->sendSuccessResponse('successfully Retrive User details', $data);
     }
 
     public function changePassword(Request $request) {

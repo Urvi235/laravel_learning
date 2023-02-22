@@ -18,8 +18,8 @@ class AdminController extends Controller
 
         $campaign_count = count(campaign::all());
         $user_count = count($users);
-        $string = '/n/n  rjgrieb /n rjktj';
-        // dd(ltrim($string, '/n'));
+        // $string = '/n/n  rjgrieb /n rjktj';
+        // // dd(ltrim($string, '/n'));
 
         return view('admin.dashboard', compact('users', 'campaign_count', 'user_count'));  
       }
@@ -46,7 +46,7 @@ class AdminController extends Controller
                 return redirect()->route('adminDashboard');
             }
             else {
-                return redirect()->route('adminlogin');
+                return redirect()->route('adminLogin');
             }
         }
     }      

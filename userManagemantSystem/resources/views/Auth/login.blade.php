@@ -17,9 +17,7 @@
             @if($messge = Session::get('error'))
             <div class="alert alert-danger text-center">{{ $messge }}</div> 
             @endif
-            @if($messge = Session::get('error'))
-            <div class="alert alert-danger text-center">{{ $messge }}</div> 
-            @endif
+
 
               <div class="card">
                   <div class="card-header">Login</div> 
